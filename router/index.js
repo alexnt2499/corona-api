@@ -6,10 +6,10 @@ router.get('/getAllDataCoronaByDate', async (req,res) => {
     try {
         let {date} = req.query; 
 
-        let getData = await Countries.findOne({date});
+        let getData = await Countries.find({date});
 
         res.json({
-            data : getData.list,
+            data : getData,
             status : 200
 
         })
@@ -25,15 +25,13 @@ router.get('/getAllDataCoronaByDate', async (req,res) => {
 router.get('/getByNameCountry', async (req,res) => {
     try {
         let {nameCountry,date} = req.query; 
-        let getData = await Countries.findOne({date});
-        for (let index = 0; index < getData.list.length; index++) {
-            const element = getData.list[index];
-            if(element.country == nameCountry) {
-                res.json({
-                    data : element,
-                    status : 200
-                })
-            }
+        let getData = await Countries.findOne({date,countryName : nameCountry});
+        
+        if(getData) {
+            res.json({
+                msg : getData,
+                status : 200
+            })
         }
 
         res.json({

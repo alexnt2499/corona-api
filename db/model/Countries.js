@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 const Countries = new mongoose.Schema({ 
-    list : {
-        type : [
-            {
+    countryName:  {
+        type : String
+    },
+    data : {
+        
                 type : Object
-            }
-        ]
+       
     },
     date : {
         type : 'String'
