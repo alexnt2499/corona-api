@@ -8,20 +8,26 @@ const DataCountries = require('./utils/DataCountries');
 let dataBuffer = fs.readFileSync(pathFileData);
 const database = require('./db/connection');
 const CountriesModel = require('./db/model/Countries');
+const body_parser = require('body-parser');
+
 database();
 
 app.listen(PORT,(data) => {
     console.log('server run PORT ' + PORT) 
 })
 
+app.use(body_parser.json());
+
 app.use('/api/public', require('./router/index'));
+app.use('/api/admin', require('./router/admin/index'));
 
 
 
 
 
-app.get('/api/UpdateCorona', (req,res) => {
+app.post('/api/UpdateCoronaByPDFWHO', (req,res) => {
     try {
+        let {date} = req.body;
         pdf(dataBuffer).then(function(data) {
             let dataBegin =  data.text.indexOf('Table 2. Countries, territories or areas with reported confirmed 2019-nCoV cases and deaths.');
             let dataEnd = data.text.indexOf('Case classifications are based on WHO case definitions for 2019-nCoV.');
@@ -73,9 +79,9 @@ app.get('/api/UpdateCorona', (req,res) => {
                 }
                 TotalDataCorona.push(dataSingapore);
             }
-
             let addCon = new CountriesModel({
-                list : TotalDataCorona
+                list : TotalDataCorona,
+                date : date
             });
 
             addCon.save();
