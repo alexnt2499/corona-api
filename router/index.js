@@ -48,6 +48,8 @@ router.get('/getByNameCountry', async (req,res) => {
     }
 })
 
+
+
 router.get(`/sendEmail`,(req,res) => {
     try {
         let {email} = req.query;

@@ -21,9 +21,12 @@ app.use(cors())
 
 app.use('/api/public', require('./router/index'));
 app.use('/api/admin', require('./router/admin/index'));
+app.use('/',express.static('frontend'))
 
 
-
+// app.get('/', (req,res) => {
+//     res.send(require('./frontend/index.html'))
+// })
 
 
 app.post('/api/UpdateCoronaByPDFWHO', (req,res) => {
