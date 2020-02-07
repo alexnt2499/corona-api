@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Countries = require('./../db/model/Countries');
-
+const Email = require('./../db/model/Emails');
 router.get('/getAllDataCoronaByDate', async (req,res) => {
     try {
         let {date} = req.query; 
@@ -45,6 +45,20 @@ router.get('/getByNameCountry', async (req,res) => {
         res.json({
             status : 501
         })
+    }
+})
+
+router.get(`sendEmail`,(req,res) => {
+    try {
+        let {email} = req.query;
+        let addEmail = new Email({
+            email
+        });
+        addEmail.save();
+        res.json({status : 200});
+    } catch (error) {
+        res.json({status : 501})
+
     }
 })
 
