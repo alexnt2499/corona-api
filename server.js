@@ -9,7 +9,7 @@ let dataBuffer = fs.readFileSync(pathFileData);
 const database = require('./db/connection');
 const CountriesModel = require('./db/model/Countries');
 const body_parser = require('body-parser');
-
+const cors = require('cors');
 database();
 
 app.listen(PORT,(data) => {
@@ -17,6 +17,7 @@ app.listen(PORT,(data) => {
 })
 
 app.use(body_parser.json());
+app.use(cors())
 
 app.use('/api/public', require('./router/index'));
 app.use('/api/admin', require('./router/admin/index'));
