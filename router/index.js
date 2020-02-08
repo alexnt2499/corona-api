@@ -2,11 +2,31 @@ const express = require('express');
 const router = express.Router();
 const Countries = require('./../db/model/Countries');
 const Email = require('./../db/model/Emails');
+const Provinces = require('./../db/model/Province');
+
 router.get('/getAllDataCoronaByDate', async (req,res) => {
     try {
         let {date} = req.query; 
 
         let getData = await Countries.find({date});
+
+        res.json({
+            data : getData,
+            status : 200
+
+        })
+    } catch (error) {
+        res.json({
+            status : 501
+        })
+    }
+})
+
+router.get('/getAllDataCoronaByDateInVietNam', async (req,res) => {
+    try {
+        let {date} = req.query; 
+
+        let getData = await Provinces.find({date});
 
         res.json({
             data : getData,

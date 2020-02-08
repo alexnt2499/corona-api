@@ -59,13 +59,19 @@ var requestPro = require('request-promise');
 //                 }
 //                }
 
-//                let addCon = new CountriesModel({
+//                CountriesModel.findOneAndUpdate({countryName : value.country },{
 //                     countryName : value.country,
 //                     data : value,
 //                     date : date
-//                 });
+//                }).then((data) => {console.log(data);
+//                })
+//             //    let addCon = new CountriesModel({
+//             //         countryName : value.country,
+//             //         data : value,
+//             //         date : date
+//             //     });
 
-//                  addCon.save();
+//             //      addCon.save();
 
                 
 //             });;
@@ -80,5 +86,8 @@ var requestPro = require('request-promise');
 //         res.json({status : 501})
 //     }
 // })
+
+
+
 
 module.exports = router;
