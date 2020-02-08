@@ -8,6 +8,8 @@ const DataCountries = require('./utils/DataCountries');
 let dataBuffer = fs.readFileSync(pathFileData);
 const database = require('./db/connection');
 const CountriesModel = require('./db/model/Countries');
+const Views = require('./db/model/Views');
+
 const body_parser = require('body-parser');
 const cors = require('cors');
 database();
@@ -26,9 +28,27 @@ app.use('/api/admins', require('./router/admin/updateCity'));
 app.use('/',express.static('frontend'))
 
 
-// app.get('/', (req,res) => {
-//     res.send(require('./frontend/index.html'))
-// })
+
+
+app.get('/ViewUp', async (req,res) => {
+    try {
+        let view = await Views.findOne({name : 'corona'});
+        if(view) {
+           let up = await Views.findOneAndUpdate({name : 'corona'},{views : view.views+1});
+           console.log(view.views);
+           
+        }else{
+            let addView = new Views({
+                name : 'corona',
+                views : 0
+            });
+            addView.save();
+        }
+        res.json({data : view})
+    } catch (error) {
+        
+    }
+})
 
 
 app.post('/api/UpdateCoronaByPDFWHO', (req,res) => {
