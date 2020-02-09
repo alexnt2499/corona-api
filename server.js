@@ -9,6 +9,8 @@ let dataBuffer = fs.readFileSync(pathFileData);
 const database = require('./db/connection');
 const CountriesModel = require('./db/model/Countries');
 const Views = require('./db/model/Views');
+const Emails = require('./db/model/Emails');
+
 
 const body_parser = require('body-parser');
 const cors = require('cors');
@@ -47,6 +49,23 @@ app.get('/ViewUp', async (req,res) => {
         res.json({data : view})
     } catch (error) {
         
+    }
+})
+
+app.get('/getViewAndSub', async (req,res) => {
+    try {
+       
+        let viewObj = await Views.findOne({name : 'corona'});
+        let subs = await Emails.find();
+        console.log( subs.length);
+        
+        res.json({
+            views : viewObj.views,
+            sub : subs.length,
+            status : 200});
+    } catch (error) {
+        res.json({status : 501})
+
     }
 })
 
