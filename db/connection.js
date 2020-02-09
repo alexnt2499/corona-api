@@ -1,4 +1,4 @@
-let URI = 'mongodb+srv://subee:subee123@cluster0-uppre.mongodb.net/test?retryWrites=true&w=majority';
+let URI = '';
 const mongoose = require('mongoose');
 module.exports = () => {
     try {
