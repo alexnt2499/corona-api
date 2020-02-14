@@ -31,14 +31,15 @@ router.get('/updateBy', (req,res) => {
                                                 deaths : value.tuVong,
                                                 
                                             }
-                                            console.log(valueGet);
                                             let checkProvince = await ProvinceModel.findOne({city:element.name});
                                             if(checkProvince) {
-                                                ProvinceModel.findOneAndUpdate({city:element.name},{
-                                                    city : element.name,
-                                                    data : valueGet,
-                                                    date : date
-                                                })
+                                                console.log(valueGet);
+
+                                                // await ProvinceModel.findOneAndUpdate({city:element.name},{
+                                                //     city : element.name,
+                                                //     data : valueGet,
+                                                //     date : date
+                                                // })
                                             }else {
                                                 let provinceModel = new ProvinceModel({
                                                     city : element.name,
