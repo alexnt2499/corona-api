@@ -6,7 +6,15 @@
 Get link URI paste in db/connection.js
 
 And use postmen or browser get link http://localhost:4000/api/admin/updateBy
+will be get data global
 
 <img src='https://github.com/ntdcodervn/corona-api/blob/master/file/image/image3.PNG'>
+
+link http://localhost:4000/api/admin/updateBy will get data in country VietName
+
+<img src='https://github.com/ntdcodervn/corona-api/blob/master/file/image/image2.PNG'>
+
+
+
 
 # Step 3 : npm start
