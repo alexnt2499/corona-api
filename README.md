@@ -18,7 +18,7 @@ will be get data global
 
 👀 And that's front end React.js in folder public
 
-<img src='https://github.com/ntdcodervn/corona-api/blob/master/file/image/image1.PNG'>
+<img src='https://github.com/ntdcodervn/corona-api/blob/master/file/image/image4.PNG'>
 
 
 
