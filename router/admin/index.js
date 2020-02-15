@@ -19,10 +19,8 @@ router.get('/updateBy',  (req,res) => {
                 let arrayString = string.split(' ');
                 let value = {};
                 let demJ = 1;
+                console.log(arrayString);
                 
-
-
-
                if(arrayString[2] == 'Hong') {
                    let getLocation = await requestPro.get({
                        uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${'Hong Kong'}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
@@ -32,8 +30,8 @@ router.get('/updateBy',  (req,res) => {
                  value = {
                     country : 'Hong Kong',
                     confirmed : arrayString[4+1],
-                    recuperate :  arrayString[11+1+demJ],
-                    deaths : arrayString[8+1+demJ].replace('\n',''),
+                    recuperate :  arrayString[13],
+                    deaths : arrayString[9].replace('\n',''),
                     latitude : getLocation.features[0].center[1],
                     longitude : getLocation.features[0].center[0]
                 }
@@ -66,7 +64,8 @@ router.get('/updateBy',  (req,res) => {
                     longitude : getLocation.features[0].center[0]
                 }
                
-               }else {
+               }
+               else if(arrayString[2] == 'China') {
                 let getLocation = await requestPro.get({
                     uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${arrayString[2]}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
                     json : true
@@ -75,13 +74,45 @@ router.get('/updateBy',  (req,res) => {
                 value = {
                     country : arrayString[2],
                     confirmed : arrayString[4],
-                    recuperate :  arrayString[2] == 'China' ? arrayString[12+demJ] : arrayString[11+demJ],
+                    recuperate :  arrayString[12+demJ],
                     deaths : arrayString[8+demJ].replace('\n','') ,
                     latitude : getLocation.features[0].center[1],
                     longitude : getLocation.features[0].center[0]
                 }
                }
-               console.log(value);
+               else if(arrayString[8] != '') {
+                let getLocation = await requestPro.get({
+                    uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${arrayString[2]}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
+                    json : true
+                });
+                
+                value = {
+                    country : arrayString[2],
+                    confirmed : arrayString[4],
+                    recuperate :  arrayString[12],
+                    deaths : arrayString[8].replace('\n','') ,
+                    latitude : getLocation.features[0].center[1],
+                    longitude : getLocation.features[0].center[0]
+                }
+                console.log(value);
+
+               }
+               else {
+                let getLocation = await requestPro.get({
+                    uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${arrayString[2]}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
+                    json : true
+                });
+                
+                value = {
+                    country : arrayString[2],
+                    confirmed : arrayString[4],
+                    recuperate :  arrayString[11],
+                    deaths : arrayString[8+demJ].replace('\n','') ,
+                    latitude : getLocation.features[0].center[1],
+                    longitude : getLocation.features[0].center[0]
+                }
+
+               }
                
                CountriesModel.findOneAndUpdate({countryName : value.country },{
                     countryName : value.country,
