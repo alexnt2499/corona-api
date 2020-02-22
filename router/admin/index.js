@@ -19,7 +19,7 @@ router.get('/updateBy',  (req,res) => {
                 let arrayString = string.split(' ');
                 let value = {};
                 let demJ = 1;
-                console.log(arrayString);
+                // console.log(arrayString);
                 
                if(arrayString[2] == 'Hong') {
                    let getLocation = await requestPro.get({
@@ -58,11 +58,12 @@ router.get('/updateBy',  (req,res) => {
                  value = {
                     country : 'Korea',
                     confirmed : arrayString[4+1],
-                    recuperate :  arrayString[11+1+demJ],
+                    recuperate :  arrayString[11+1+demJ+1],
                     deaths : arrayString[8+1+demJ].replace('\n','') ,
                     latitude : getLocation.features[0].center[1],
                     longitude : getLocation.features[0].center[0]
                 }
+
                
                }
                else if(arrayString[2] == 'China') {
@@ -94,7 +95,6 @@ router.get('/updateBy',  (req,res) => {
                     latitude : getLocation.features[0].center[1],
                     longitude : getLocation.features[0].center[0]
                 }
-                console.log(value);
 
                }
                else {
@@ -113,6 +113,9 @@ router.get('/updateBy',  (req,res) => {
                 }
 
                }
+
+               console.log(value);
+
                
                CountriesModel.findOneAndUpdate({countryName : value.country },{
                     countryName : value.country,
