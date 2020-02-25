@@ -116,22 +116,24 @@ router.get('/updateBy',  (req,res) => {
 
                console.log(value);
 
-               if(value.country == 'Italy') {
-                let addCon = new CountriesModel({
-                    countryName : value.country,
-                    data : value,
-                    date : date
-                });
+               let checkExist = await CountriesModel.findOne({countryName : value.country});
 
-                 addCon.save();
+               if(checkExist) {
+                    CountriesModel.findOneAndUpdate({countryName : value.country },{
+                        countryName : value.country,
+                        data : value,
+                        date : date
+                    }).then((data) => {
+                    })
                }else {
-                CountriesModel.findOneAndUpdate({countryName : value.country },{
-                    countryName : value.country,
+                   let add = new CountriesModel({ countryName : value.country,
                     data : value,
-                    date : date
-               }).then((data) => {
-               })
+                    date : date});
+
+                    add.save();
                }
+             
+               
              
            
 
