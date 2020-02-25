@@ -116,20 +116,24 @@ router.get('/updateBy',  (req,res) => {
 
                console.log(value);
 
-               
-               CountriesModel.findOneAndUpdate({countryName : value.country },{
+               if(value.country == 'Italy') {
+                let addCon = new CountriesModel({
+                    countryName : value.country,
+                    data : value,
+                    date : date
+                });
+
+                 addCon.save();
+               }else {
+                CountriesModel.findOneAndUpdate({countryName : value.country },{
                     countryName : value.country,
                     data : value,
                     date : date
                }).then((data) => {
                })
-            //    let addCon = new CountriesModel({
-            //         countryName : value.country,
-            //         data : value,
-            //         date : date
-            //     });
-
-            //      addCon.save();
+               }
+             
+           
 
                 
             });;
