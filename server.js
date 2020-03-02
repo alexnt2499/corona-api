@@ -28,7 +28,9 @@ app.use('/api/admin', require('./router/admin/index'));
 app.use('/api/admins', require('./router/admin/updateCity'));
 
 app.use('/',express.static('frontend'))
-
+app.get('/googlee7ce68f561de4041.html',(req,res) => {
+    res.sendFile('./frontend/googlee7ce68f561de4041.html')
+});
 
 
 
