@@ -69,6 +69,12 @@ app.get('/getViewAndSub', async (req,res) => {
     }
 })
 
+app.get('/delete',(req,res) => {
+    
+    CountriesModel.findOneAndDelete({countryName : 'Korea'})
+
+})
+
 
 app.post('/api/UpdateCoronaByPDFWHO', (req,res) => {
     try {

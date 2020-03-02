@@ -84,6 +84,13 @@ router.get(`/sendEmail`,(req,res) => {
     }
 })
 
+router.get('/delete',(req,res) => {
+    Countries.findOneAndDelete({countryName : 'Italy'});
+    Countries.findOneAndDelete({countryName : 'San'})
+    Countries.findOneAndDelete({countryName : 'North'})
+
+})
+
 
 
 module.exports = router;

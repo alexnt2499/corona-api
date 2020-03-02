@@ -13,106 +13,65 @@ router.get('/updateBy',  (req,res) => {
             
         if (!error && response.statusCode == 200) {
             var $ = cheerio.load(html);
-            let arrayData = [];
-            $('#table3 tbody tr').each( async function(i, elem) {
+            $('#main_table_countries_div tbody tr').each( async function(i, elem) {
                let string = $(this).text();
                 let arrayString = string.split(' ');
                 let value = {};
-                let demJ = 1;
-                // console.log(arrayString);
                 
-               if(arrayString[2] == 'Hong') {
+                let arrayEnd = [];
+                let check = false;
+                for (let index = 0; index < arrayString.length; index++) {
+                    const elem = arrayString[index];
+                    if(index == 2) {
+                        let checkString = arrayString[3].replace(',','');
+                        if(!Number.isNaN(Number(checkString))) {
+                            arrayEnd.push(elem);
+                        }else {
+                            arrayEnd.push(elem + arrayString[3]);
+                            check = true;
+                        }
+                    }else {
+                        arrayEnd.push(elem);
+                    }
+                }   
+                if(check == true) {
+                    arrayEnd.splice(3,1);
+                }
+
+               if(arrayEnd.length == 21 || arrayEnd.length == 19 ) {
                    let getLocation = await requestPro.get({
-                       uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${'Hong Kong'}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
+                       uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${arrayEnd[2]}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
                        json : true
                    });
                    
                  value = {
-                    country : 'Hong Kong',
-                    confirmed : arrayString[4+1],
-                    recuperate :  arrayString[13],
-                    deaths : arrayString[9].replace('\n',''),
+                    country : arrayEnd[2],
+                    confirmed : arrayEnd[4],
+                    recuperate :  arrayEnd[14],
+                    deaths : arrayEnd[9].replace('\n',''),
                     latitude : getLocation.features[0].center[1],
                     longitude : getLocation.features[0].center[0]
                 }
                }
-              
-               else if(arrayString[2] =='Sri') {
-                let getLocation = await requestPro.get({
-                    uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${'Sri Lanka'}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
-                    json : true
-                });
-                 value = {
-                    country : 'Sri Lanka',
-                    confirmed : arrayString[4+1],
-                    recuperate :  arrayString[11+1+demJ],
-                    deaths : arrayString[8+1+demJ].replace('\n','') ,
-                    latitude : getLocation.features[0].center[1],
-                    longitude : getLocation.features[0].center[0]
-                }}
-               else if(arrayString[2] =='S.') {
-                let getLocation = await requestPro.get({
-                    uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${'Korea'}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
-                    json : true
-                });
-                 value = {
-                    country : 'Korea',
-                    confirmed : arrayString[4+1],
-                    recuperate :  arrayString[11+1+demJ+1],
-                    deaths : arrayString[8+1+demJ].replace('\n','') ,
+               else if(arrayEnd.length == 20) {
+                    let getLocation = await requestPro.get({
+                        uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${arrayEnd[2]}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
+                        json : true
+                    });
+                    
+                value = {
+                    country : arrayEnd[2],
+                    confirmed : arrayEnd[4],
+                    recuperate :  arrayEnd[15],
+                    deaths : arrayEnd[9].replace('\n',''),
                     latitude : getLocation.features[0].center[1],
                     longitude : getLocation.features[0].center[0]
                 }
-
+               }
                
-               }
-               else if(arrayString[2] == 'China') {
-                let getLocation = await requestPro.get({
-                    uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${arrayString[2]}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
-                    json : true
-                });
-                
-                value = {
-                    country : arrayString[2],
-                    confirmed : arrayString[4],
-                    recuperate :  arrayString[12+demJ],
-                    deaths : arrayString[8+demJ].replace('\n','') ,
-                    latitude : getLocation.features[0].center[1],
-                    longitude : getLocation.features[0].center[0]
-                }
-               }
-               else if(arrayString[8] != '') {
-                let getLocation = await requestPro.get({
-                    uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${arrayString[2]}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
-                    json : true
-                });
-                
-                value = {
-                    country : arrayString[2],
-                    confirmed : arrayString[4],
-                    recuperate :  arrayString[12],
-                    deaths : arrayString[8].replace('\n','') ,
-                    latitude : getLocation.features[0].center[1],
-                    longitude : getLocation.features[0].center[0]
-                }
-
-               }
-               else {
-                let getLocation = await requestPro.get({
-                    uri : `https://api.mapbox.com/geocoding/v5/mapbox.places/${arrayString[2]}.json?types=country&access_token=pk.eyJ1IjoiZGVubmEyNDcxOTk5IiwiYSI6ImNrNmNmd2x3ZDEzdm0zanJ5ZmxpY3dseDAifQ.4vQDLt0E5wV7RNE9IgSKBQ`,
-                    json : true
-                });
-                
-                value = {
-                    country : arrayString[2],
-                    confirmed : arrayString[4],
-                    recuperate :  arrayString[11],
-                    deaths : arrayString[8+demJ].replace('\n','') ,
-                    latitude : getLocation.features[0].center[1],
-                    longitude : getLocation.features[0].center[0]
-                }
-
-               }
+           
+              
+              
 
                console.log(value);
 
